@@ -1,0 +1,221 @@
+{
+  "run_id": "exp2_all_tasks_task4_20260119_124203",
+  "timestamp": "20260119_124512",
+  "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task4_20260119_124203_patch.npy",
+  "args": {
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task4_20260119_124203_patch.npy",
+    "suite": "libero_spatial",
+    "task_id": 4,
+    "train_ratio": 0.7,
+    "frames_per_episode": 10,
+    "asr_threshold": 0.5,
+    "gripper_flip_threshold": 1.0,
+    "target_type": "generic",
+    "model_path": "/data1/ma1/Ishaq/ump-vla/checkpoints/openvla-7b",
+    "device": "cuda:0",
+    "output_dir": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack",
+    "seed": 42
+  },
+  "task_info": {
+    "task_name": "pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate",
+    "instruction": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+    "total_episodes": 50,
+    "test_episodes": 15,
+    "test_indices": [
+      1,
+      2,
+      5,
+      6,
+      7,
+      8,
+      14,
+      15,
+      17,
+      27,
+      34,
+      37,
+      40,
+      47,
+      49
+    ],
+    "frames_per_episode": 10,
+    "total_frames": 150
+  },
+  "testing_time_seconds": 53.87836480140686,
+  "metrics": {
+    "primary": {
+      "asr": 0.4533333333333333,
+      "asr_std": 0.49781745873585254,
+      "task_failure_asr": 0.02
+    },
+    "patch_effect": {
+      "avg_patch_effect": 0.5248339184209924,
+      "std_patch_effect": 0.48711188219515245,
+      "avg_pos_change": 0.017506260654616537,
+      "avg_rot_change": 0.057863605478794114,
+      "avg_gripper_change": 0.44946405228758163
+    },
+    "success_rates": {
+      "gripper_flip_rate": 0.0,
+      "significant_deviation_rate": 0.4533333333333333,
+      "target_approach_rate": 0.6133333333333333
+    },
+    "baseline": {
+      "avg_clean_model_error": 1.946674243249757,
+      "avg_patched_model_error": 2.0072261180166326,
+      "error_change": 0.060551874766875624
+    }
+  },
+  "episode_metrics": [
+    {
+      "episode_id": 0,
+      "original_id": 1,
+      "num_frames": 10,
+      "asr": 0.2,
+      "task_failure_asr": 0.1,
+      "avg_patch_effect": 0.26735618551122314,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.021144929946861964
+    },
+    {
+      "episode_id": 1,
+      "original_id": 2,
+      "num_frames": 10,
+      "asr": 0.2,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.2747552970549607,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.019513696394933132
+    },
+    {
+      "episode_id": 2,
+      "original_id": 5,
+      "num_frames": 10,
+      "asr": 0.3,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.3539977858349438,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.014146050983087199
+    },
+    {
+      "episode_id": 3,
+      "original_id": 6,
+      "num_frames": 10,
+      "asr": 0.5,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.5768554069426518,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.015611673067381454
+    },
+    {
+      "episode_id": 4,
+      "original_id": 7,
+      "num_frames": 10,
+      "asr": 0.6,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.6932990064184917,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.022545244506175267
+    },
+    {
+      "episode_id": 5,
+      "original_id": 8,
+      "num_frames": 10,
+      "asr": 0.5,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.5524198026920548,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.01456371893086186
+    },
+    {
+      "episode_id": 6,
+      "original_id": 14,
+      "num_frames": 10,
+      "asr": 0.4,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.4926211353192314,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.01996191154994722
+    },
+    {
+      "episode_id": 7,
+      "original_id": 15,
+      "num_frames": 10,
+      "asr": 0.5,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.5798000060050944,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.01636810274980251
+    },
+    {
+      "episode_id": 8,
+      "original_id": 17,
+      "num_frames": 10,
+      "asr": 0.6,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.6707448793186168,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.020222591054764795
+    },
+    {
+      "episode_id": 9,
+      "original_id": 27,
+      "num_frames": 10,
+      "asr": 0.4,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.48110726663282355,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.01827714521756856
+    },
+    {
+      "episode_id": 10,
+      "original_id": 34,
+      "num_frames": 10,
+      "asr": 0.7,
+      "task_failure_asr": 0.1,
+      "avg_patch_effect": 0.7957353887182539,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.022610880441043
+    },
+    {
+      "episode_id": 11,
+      "original_id": 37,
+      "num_frames": 10,
+      "asr": 0.7,
+      "task_failure_asr": 0.1,
+      "avg_patch_effect": 0.707656464314149,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.015105302691732525
+    },
+    {
+      "episode_id": 12,
+      "original_id": 40,
+      "num_frames": 10,
+      "asr": 0.4,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.4807574275707188,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.01936947944103142
+    },
+    {
+      "episode_id": 13,
+      "original_id": 47,
+      "num_frames": 10,
+      "asr": 0.5,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.5854031201704706,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.010916680927520569
+    },
+    {
+      "episode_id": 14,
+      "original_id": 49,
+      "num_frames": 10,
+      "asr": 0.3,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.3599996038112009,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.012236501916536607
+    }
+  ]
+}

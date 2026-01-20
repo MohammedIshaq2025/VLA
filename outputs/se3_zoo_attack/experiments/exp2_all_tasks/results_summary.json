@@ -1,0 +1,111 @@
+[
+  {
+    "task_id": 0,
+    "asr": 0.4666666666666667,
+    "gripper_flip_rate": 0.0,
+    "patch_effect": 0.5466693233692803,
+    "train_time": 124,
+    "test_time": 70,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task0_20260119_122911_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/exp2_all_tasks_task0_20260119_122911_testing.json"
+  }
+,
+  {
+    "task_id": 1,
+    "asr": 0.34,
+    "gripper_flip_rate": 0.0,
+    "patch_effect": 0.42329906080986784,
+    "train_time": 123,
+    "test_time": 70,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task1_20260119_123223_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/exp2_all_tasks_task1_20260119_123223_testing.json"
+  }
+,
+  {
+    "task_id": 2,
+    "asr": 0.34,
+    "gripper_flip_rate": 0.0,
+    "patch_effect": 0.39539658183679327,
+    "train_time": 123,
+    "test_time": 69,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task2_20260119_123537_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/exp2_all_tasks_task2_20260119_123537_testing.json"
+  }
+,
+  {
+    "task_id": 3,
+    "asr": 0.37333333333333335,
+    "gripper_flip_rate": 0.0,
+    "patch_effect": 0.44898463913741066,
+    "train_time": 124,
+    "test_time": 70,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task3_20260119_123850_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/exp2_all_tasks_task3_20260119_123850_testing.json"
+  }
+,
+  {
+    "task_id": 4,
+    "asr": 0.4533333333333333,
+    "gripper_flip_rate": 0.0,
+    "patch_effect": 0.5248339184209924,
+    "train_time": 124,
+    "test_time": 70,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task4_20260119_124203_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/exp2_all_tasks_task4_20260119_124203_testing.json"
+  }
+,
+  {
+    "task_id": 5,
+    "asr": 0.3,
+    "gripper_flip_rate": 0.0,
+    "patch_effect": 0.3697265678888574,
+    "train_time": 125,
+    "test_time": 70,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task5_20260119_124518_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/exp2_all_tasks_task5_20260119_124518_testing.json"
+  }
+,
+  {
+    "task_id": 6,
+    "asr": 0.37333333333333335,
+    "gripper_flip_rate": 0.0,
+    "patch_effect": 0.4438300922323343,
+    "train_time": 122,
+    "test_time": 70,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task6_20260119_124832_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/exp2_all_tasks_task6_20260119_124832_testing.json"
+  }
+,
+  {
+    "task_id": 7,
+    "asr": 0.4,
+    "gripper_flip_rate": 0.0,
+    "patch_effect": 0.46408960276481936,
+    "train_time": 123,
+    "test_time": 69,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task7_20260119_125145_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/exp2_all_tasks_task7_20260119_125145_testing.json"
+  }
+,
+  {
+    "task_id": 8,
+    "asr": 0.44666666666666666,
+    "gripper_flip_rate": 0.0,
+    "patch_effect": 0.5167526454891178,
+    "train_time": 125,
+    "test_time": 70,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task8_20260119_125459_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/exp2_all_tasks_task8_20260119_125459_testing.json"
+  }
+,
+  {
+    "task_id": 9,
+    "asr": 0.32666666666666666,
+    "gripper_flip_rate": 0.006666666666666667,
+    "patch_effect": 0.39771810176262457,
+    "train_time": 122,
+    "test_time": 69,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp2_all_tasks_task9_20260119_125812_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/exp2_all_tasks_task9_20260119_125812_testing.json"
+  }
+]

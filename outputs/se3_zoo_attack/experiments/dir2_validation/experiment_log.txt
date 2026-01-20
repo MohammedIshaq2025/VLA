@@ -1,0 +1,303 @@
+========================================
+DIRECTION 2: MAXIMIZE DEVIATION ATTACK
+========================================
+Goal: Create patches that maximize deviation from clean predictions
+      for closed-loop trajectory attack evaluation
+========================================
+Experiment Name: dir2_validation
+SLURM Job ID: 2293
+Start Time: Tue Jan 20 00:15:44 +03 2026
+Suite: libero_spatial
+Task IDs: 0
+Train Ratio: 0.7
+Queries: 200
+Mini-batch Size: 3
+Deviation Threshold: 0.3
+Weights: pos=1.0, rot=1.0, grip=5.0
+Learning Rate: 0.01
+Seed: 42
+========================================
+Tue Jan 20 00:15:44 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.65.06              Driver Version: 580.65.06      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H200                    On  |   00000000:BB:00.0 Off |                   On |
+| N/A   25C    P0             76W /  700W |      87MiB / 143771MiB |     N/A      Default |
+|                                         |                        |              Enabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| MIG devices:                                                                            |
++------------------+----------------------------------+-----------+-----------------------+
+| GPU  GI  CI  MIG |              Shared Memory-Usage |        Vol|        Shared         |
+|      ID  ID  Dev |                Shared BAR1-Usage | SM     Unc| CE ENC  DEC  OFA  JPG |
+|                  |                                  |        ECC|                       |
+|==================+==================================+===========+=======================|
+|  0    3   0   0  |              29MiB / 33280MiB    | 32      0 |  2   0    2    0    2 |
+|                  |               0MiB / 29618MiB    |           |                       |
++------------------+----------------------------------+-----------+-----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+Python: /data1/ma1/envs/upa-vla/bin/python3.10
+Python 3.10.19
+
+
+======================================
+TASK 0
+======================================
+[TRAINING] Task 0 starting...
+================================================================================
+DIRECTION 2: MAXIMIZE DEVIATION ATTACK
+================================================================================
+Goal: Maximize per-frame deviation for closed-loop trajectory attack
+================================================================================
+Run ID:           dir2_validation_task0_20260120_001550
+Start time:       2026-01-20 00:15:50
+Suite:            libero_spatial
+Task ID:          0
+Train ratio:      0.7 (35/50 episodes)
+Query budget:     200
+Mini-batch size:  3
+Patch size:       32x32
+Patch position:   (48, 48)
+Learning rate:    0.01
+Perturbation σ:   0.1
+Deviation thresh: 0.3
+Weights:          pos=1.0, rot=1.0, grip=5.0
+Device:           cuda:0
+Seed:             42
+================================================================================
+GPU:              NVIDIA H200 MIG 2g.35gb (34.9 GB)
+
+[1/3] Loading LIBERO data...
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  Task:           pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate
+  Instruction:    pick up the black bowl between the plate and the ramekin and place it on the plate
+  Total episodes: 50
+  Train episodes: 35 (indices: [0, 3, 4, 9, 10]...)
+  Test episodes:  15 (indices: [1, 2, 5, 6, 7]...)
+
+[2/3] Loading OpenVLA model...
+[OpenVLA] Loading model from /data1/ma1/Ishaq/ump-vla/checkpoints/openvla-7b on cuda:0...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:00,  5.46it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00,  6.44it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:00<00:00,  6.83it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00,  7.16it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00,  6.85it/s]
+[OpenVLA] Model loaded successfully
+[OpenVLA] Action dim: 7
+
+[3/3] Initializing ZOO V2 Optimizer...
+
+======================================================================
+ZOO V2: MAXIMIZE DEVIATION ATTACK (Direction 2 Aligned)
+======================================================================
+Goal: Maximize deviation from clean predictions
+Metric: Average SE(3) deviation across frames
+======================================================================
+Query budget:     200
+Mini-batch size:  3
+Learning rate:    0.01
+Perturbation σ:   0.1
+Patch size:       32x32
+Patch position:   (48, 48)
+Weights:          pos=1.0, rot=1.0, grip=5.0
+Deviation thresh: 0.3
+Training episodes:35
+Seed:             42
+======================================================================
+
+[Q    0/200] Dev: 0.7007 (avg: 0.7007) | Rate:  66.7% (avg: 66.7%) | Best: 0.7007 | Grad: 0.0000
+[Q   10/200] Dev: 0.8772 (avg: 0.5494) | Rate: 100.0% (avg: 51.5%) | Best: 0.7007 | Grad: 8.3020
+[Q   20/200] Dev: 0.7445 (avg: 0.5798) | Rate:  66.7% (avg: 55.0%) | Best: 0.7007 | Grad: 0.0000
+[Q   30/200] Dev: 0.2235 (avg: 0.5615) | Rate:  33.3% (avg: 55.0%) | Best: 0.7007 | Grad: 8.3150
+[Q   40/200] Dev: 0.3655 (avg: 0.4517) | Rate:  33.3% (avg: 43.3%) | Best: 0.7007 | Grad: 0.0000
+[Q   50/200] Dev: 0.3785 (avg: 0.4895) | Rate:  33.3% (avg: 45.0%) | Best: 0.7007 | Grad: 0.0011
+[Q   60/200] Dev: 0.2416 (avg: 0.5229) | Rate:  33.3% (avg: 48.3%) | Best: 0.7007 | Grad: 8.3007
+[Q   70/200] Dev: 0.7535 (avg: 0.3722) | Rate:  66.7% (avg: 31.7%) | Best: 0.7007 | Grad: 0.0000
+[Q   80/200] Dev: 0.3943 (avg: 0.3993) | Rate:  33.3% (avg: 33.3%) | Best: 0.7007 | Grad: 0.0000
+[Q   90/200] Dev: 0.5680 (avg: 0.4784) | Rate:  66.7% (avg: 43.3%) | Best: 0.7007 | Grad: 7.1063
+[Q  100/200] Dev: 0.0576 (avg: 0.4743) | Rate:   0.0% (avg: 43.3%) | Best: 0.7007 | Grad: 0.0000
+[Q  110/200] Dev: 0.4252 (avg: 0.4963) | Rate:  33.3% (avg: 45.0%) | Best: 0.7007 | Grad: 0.0065
+[Q  120/200] Dev: 0.0554 (avg: 0.4305) | Rate:   0.0% (avg: 38.3%) | Best: 0.7007 | Grad: 0.0130
+[Q  130/200] Dev: 0.7500 (avg: 0.4492) | Rate:  66.7% (avg: 41.7%) | Best: 0.7007 | Grad: 0.0000
+[Q  140/200] Dev: 0.3864 (avg: 0.5133) | Rate:  33.3% (avg: 48.3%) | Best: 0.7007 | Grad: 0.0000
+[Q  150/200] Dev: 0.5410 (avg: 0.5170) | Rate:  66.7% (avg: 46.7%) | Best: 0.7007 | Grad: 0.0130
+[Q  160/200] Dev: 0.4079 (avg: 0.5430) | Rate:  33.3% (avg: 50.0%) | Best: 0.7007 | Grad: 0.0551
+[Q  170/200] Dev: 0.2569 (avg: 0.6358) | Rate:  33.3% (avg: 61.7%) | Best: 0.7007 | Grad: 8.2981
+[Q  180/200] Dev: 0.7827 (avg: 0.6897) | Rate:  66.7% (avg: 66.7%) | Best: 0.7007 | Grad: 0.0206
+[Q  190/200] Dev: 0.9152 (avg: 0.6602) | Rate: 100.0% (avg: 63.3%) | Best: 0.7007 | Grad: 8.2529
+[Q  199/200] Dev: 0.5686 (avg: 0.6297) | Rate:  66.7% (avg: 65.0%) | Best: 0.7007 | Grad: 8.3174
+
+======================================================================
+TRAINING COMPLETE
+======================================================================
+Total queries:        200
+Training time:        479.3s (8.0 min)
+Best avg deviation:   0.7007
+Final avg deviation:  0.6297
+Final deviation rate: 65.0%
+======================================================================
+
+================================================================================
+Training Complete!
+  Total time:         479.3 seconds (8.0 min)
+  Total queries:      200
+  Best avg deviation: 0.7007
+================================================================================
+
+[SAVED] Best patch: /data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/dir2_validation_task0_20260120_001550_patch.npy
+[SAVED] Patch image: /data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/dir2_validation_task0_20260120_001550_patch.png
+Traceback (most recent call last):
+  File "/data1/ma1/Ishaq/ump-vla/code/scripts/train_patch.py", line 334, in <module>
+    main()
+  File "/data1/ma1/Ishaq/ump-vla/code/scripts/train_patch.py", line 298, in main
+    json.dump(training_results, f, indent=2)
+  File "/data1/ma1/envs/upa-vla/lib/python3.10/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/data1/ma1/envs/upa-vla/lib/python3.10/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/data1/ma1/envs/upa-vla/lib/python3.10/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/data1/ma1/envs/upa-vla/lib/python3.10/json/encoder.py", line 325, in _iterencode_list
+    yield from chunks
+  File "/data1/ma1/envs/upa-vla/lib/python3.10/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/data1/ma1/envs/upa-vla/lib/python3.10/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/data1/ma1/envs/upa-vla/lib/python3.10/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bool_ is not JSON serializable
+[TRAINING] Task 0 completed in 495s
+[FOUND] Patch: /data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/dir2_validation_task0_20260120_001550_patch.npy
+
+[TESTING] Task 0 starting...
+================================================================================
+DIRECTION 2: DEVIATION ANALYSIS TESTING
+================================================================================
+Focus: Measuring deviation from clean predictions
+Goal: Validate patch effect for closed-loop trajectory attack
+================================================================================
+Run ID:           dir2_validation_task0_20260120_001550
+Start time:       2026-01-20 00:24:05
+Patch:            /data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/dir2_validation_task0_20260120_001550_patch.npy
+Patch position:   (48, 48)
+Suite:            libero_spatial
+Task ID:          0
+Train ratio:      0.7
+Frames/episode:   10
+Deviation thresh: 0.3
+Seed:             42
+================================================================================
+
+[1/4] Loading adversarial patch...
+  Shape:          (32, 32, 3)
+  Range:          [0.300, 0.700]
+
+[2/4] Loading LIBERO data...
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  Task:           pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate
+  Instruction:    pick up the black bowl between the plate and the ramekin and place it on the plate
+  Total episodes: 50
+  Test episodes:  15 (indices: [1, 2, 5, 6, 7]...)
+
+[3/4] Loading OpenVLA model...
+[OpenVLA] Loading model from /data1/ma1/Ishaq/ump-vla/checkpoints/openvla-7b on cuda:0...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:00,  5.41it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00,  6.46it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:00<00:00,  6.89it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00,  7.24it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00,  6.90it/s]
+[OpenVLA] Model loaded successfully
+[OpenVLA] Action dim: 7
+
+[4/4] Evaluating patch on 15 test episodes...
+================================================================================
+[TEST] Episode   1/15 | Avg Dev: 0.5856 | Cumul: 5.8555 | Rate:  50.0% | Pos: 0.0191
+[TEST] Episode   3/15 | Avg Dev: 0.7716 | Cumul: 7.7164 | Rate:  70.0% | Pos: 0.0164
+[TEST] Episode   6/15 | Avg Dev: 0.5644 | Cumul: 5.6440 | Rate:  50.0% | Pos: 0.0218
+[TEST] Episode   9/15 | Avg Dev: 0.8998 | Cumul: 8.9981 | Rate:  80.0% | Pos: 0.0244
+[TEST] Episode  12/15 | Avg Dev: 0.4740 | Cumul: 4.7398 | Rate:  40.0% | Pos: 0.0223
+[TEST] Episode  15/15 | Avg Dev: 0.4633 | Cumul: 4.6335 | Rate:  40.0% | Pos: 0.0193
+================================================================================
+
+Testing Complete!
+  Total time:     54.0 seconds (0.9 min)
+  Episodes:       15
+  Frames/episode: 10
+  Total frames:   150
+
+================================================================================
+DIRECTION 2 TESTING RESULTS: DEVIATION ANALYSIS
+================================================================================
+
+[PRIMARY METRICS: DEVIATION FROM CLEAN PREDICTION]
+  Average Deviation:     0.5771 +/- 0.5036
+  Deviation Rate:         50.0% (threshold: 0.3)
+  Max Deviation:         1.1733
+  Min Deviation:         0.0164
+
+[COMPONENT-WISE DEVIATIONS]
+  Position Deviation:    0.0208 (meters)
+  Rotation Deviation:    0.0593 (radians)
+  Gripper Deviation:     0.4970 (0-2 scale)
+
+[CUMULATIVE METRICS (Proxy for Closed-Loop Impact)]
+  Avg Episode Cumulative: 5.7714
+  Total Cumulative:       86.5714
+  Cumulative Position:    3.1261 meters
+
+[BASELINE CONTEXT (for reference)]
+  Clean Model GT Error:   2.0120
+  Patched Model GT Error: 1.9015
+  GT Error Change:        -0.1105
+================================================================================
+
+[DIRECTION 2 ASSESSMENT]
+  STRONG DEVIATION: 0.5771 >= 0.5
+  -> High per-frame deviation suggests significant closed-loop impact
+
+  Cumulative Position Drift: 3.1261m over 150 frames
+  Projected Drift (100 frames): 2.0841m
+  -> Significant trajectory drift expected in closed-loop execution
+================================================================================
+
+[SAVED] Testing summary: /data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/dir2_validation_task0_20260120_001550_testing.json
+[SAVED] Detailed results: /data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/dir2_validation_task0_20260120_001550_detailed.json
+
+End time: 2026-01-20 00:25:08
+[TESTING] Task 0 completed in 70s
+
+[RESULTS] Task 0 (Direction 2 Metrics):
+  Avg Deviation: 0.5771426208950242
+  Deviation Rate: 0.5
+  Position Deviation: 0.020840552869194506
+  Cumulative Position: 3.1260829303791757m
+
+
+========================================
+EXPERIMENT COMPLETE
+========================================
+Experiment: dir2_validation
+End Time: Tue Jan 20 00:25:09 +03 2026
+Summary: /data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/experiments/dir2_validation/results_summary.json
+Log: /data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/experiments/dir2_validation/experiment_log.txt
+========================================
+
+Results Summary:
+[
+  {
+    "task_id": 0,
+    "avg_deviation": 0.5771426208950242,
+    "deviation_rate": 0.5,
+    "position_deviation": 0.020840552869194506,
+    "cumulative_position": 3.1260829303791757,
+    "train_time": 495,
+    "test_time": 70,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/dir2_validation_task0_20260120_001550_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/dir2_validation_task0_20260120_001550_testing.json"
+  }
+]

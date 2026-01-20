@@ -1,0 +1,12 @@
+[
+  {
+    "task_id": 0,
+    "asr": 0.4666666666666667,
+    "gripper_flip_rate": 0.0,
+    "patch_effect": 0.5466693233692803,
+    "train_time": 125,
+    "test_time": 69,
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp1_baseline_70_30_task0_20260119_122115_patch.npy",
+    "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/exp1_baseline_70_30_task0_20260119_122115_testing.json"
+  }
+]

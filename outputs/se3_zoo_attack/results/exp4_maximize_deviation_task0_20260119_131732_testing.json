@@ -1,0 +1,221 @@
+{
+  "run_id": "exp4_maximize_deviation_task0_20260119_131732",
+  "timestamp": "20260119_132038",
+  "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp4_maximize_deviation_task0_20260119_131732_patch.npy",
+  "args": {
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/exp4_maximize_deviation_task0_20260119_131732_patch.npy",
+    "suite": "libero_spatial",
+    "task_id": 0,
+    "train_ratio": 0.7,
+    "frames_per_episode": 10,
+    "asr_threshold": 0.5,
+    "gripper_flip_threshold": 1.0,
+    "target_type": "generic",
+    "model_path": "/data1/ma1/Ishaq/ump-vla/checkpoints/openvla-7b",
+    "device": "cuda:0",
+    "output_dir": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack",
+    "seed": 42
+  },
+  "task_info": {
+    "task_name": "pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate",
+    "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+    "total_episodes": 50,
+    "test_episodes": 15,
+    "test_indices": [
+      1,
+      2,
+      5,
+      6,
+      7,
+      8,
+      14,
+      15,
+      17,
+      27,
+      34,
+      37,
+      40,
+      47,
+      49
+    ],
+    "frames_per_episode": 10,
+    "total_frames": 150
+  },
+  "testing_time_seconds": 53.89495396614075,
+  "metrics": {
+    "primary": {
+      "asr": 0.47333333333333333,
+      "asr_std": 0.49928838248940755,
+      "task_failure_asr": 0.04
+    },
+    "patch_effect": {
+      "avg_patch_effect": 0.5526220123458195,
+      "std_patch_effect": 0.5040487022502036,
+      "avg_pos_change": 0.02070109001062759,
+      "avg_rot_change": 0.06086209880578019,
+      "avg_gripper_change": 0.47105882352941186
+    },
+    "success_rates": {
+      "gripper_flip_rate": 0.0,
+      "significant_deviation_rate": 0.47333333333333333,
+      "target_approach_rate": 0.41333333333333333
+    },
+    "baseline": {
+      "avg_clean_model_error": 2.0119662888229564,
+      "avg_patched_model_error": 1.9265576190783618,
+      "error_change": -0.0854086697445946
+    }
+  },
+  "episode_metrics": [
+    {
+      "episode_id": 0,
+      "original_id": 1,
+      "num_frames": 10,
+      "asr": 0.6,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.6774911661014507,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.018730066703558444
+    },
+    {
+      "episode_id": 1,
+      "original_id": 2,
+      "num_frames": 10,
+      "asr": 0.4,
+      "task_failure_asr": 0.2,
+      "avg_patch_effect": 0.4994537160261098,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.02022398208942798
+    },
+    {
+      "episode_id": 2,
+      "original_id": 5,
+      "num_frames": 10,
+      "asr": 0.6,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.662910292702645,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.01516649387826045
+    },
+    {
+      "episode_id": 3,
+      "original_id": 6,
+      "num_frames": 10,
+      "asr": 0.3,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.3798533760593609,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.021094690076954272
+    },
+    {
+      "episode_id": 4,
+      "original_id": 7,
+      "num_frames": 10,
+      "asr": 0.7,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.7676211446796237,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.017200014327948408
+    },
+    {
+      "episode_id": 5,
+      "original_id": 8,
+      "num_frames": 10,
+      "asr": 0.3,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.36535043735616046,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.020293503707419634
+    },
+    {
+      "episode_id": 6,
+      "original_id": 14,
+      "num_frames": 10,
+      "asr": 0.5,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.5813433675779973,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.02086214701698836
+    },
+    {
+      "episode_id": 7,
+      "original_id": 15,
+      "num_frames": 10,
+      "asr": 0.4,
+      "task_failure_asr": 0.2,
+      "avg_patch_effect": 0.48773189702330405,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.03141082718365705
+    },
+    {
+      "episode_id": 8,
+      "original_id": 17,
+      "num_frames": 10,
+      "asr": 0.7,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.785570956068934,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.024769345412577297
+    },
+    {
+      "episode_id": 9,
+      "original_id": 27,
+      "num_frames": 10,
+      "asr": 0.6,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.6662683133251346,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.020856954775960442
+    },
+    {
+      "episode_id": 10,
+      "original_id": 34,
+      "num_frames": 10,
+      "asr": 0.4,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.4787154480245207,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.01921412989765206
+    },
+    {
+      "episode_id": 11,
+      "original_id": 37,
+      "num_frames": 10,
+      "asr": 0.3,
+      "task_failure_asr": 0.1,
+      "avg_patch_effect": 0.37810599092635144,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.01630106737222736
+    },
+    {
+      "episode_id": 12,
+      "original_id": 40,
+      "num_frames": 10,
+      "asr": 0.4,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.48412529823106903,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.01968459708097716
+    },
+    {
+      "episode_id": 13,
+      "original_id": 47,
+      "num_frames": 10,
+      "asr": 0.4,
+      "task_failure_asr": 0.1,
+      "avg_patch_effect": 0.504356714976305,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.025129097562475194
+    },
+    {
+      "episode_id": 14,
+      "original_id": 49,
+      "num_frames": 10,
+      "asr": 0.5,
+      "task_failure_asr": 0.0,
+      "avg_patch_effect": 0.5704320661083268,
+      "gripper_flip_rate": 0.0,
+      "avg_pos_change": 0.019579433073329745
+    }
+  ]
+}

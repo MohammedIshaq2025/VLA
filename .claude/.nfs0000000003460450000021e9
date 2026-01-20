@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(source ~/.bashrc)",
+      "Bash(conda activate:*)",
+      "Bash(python:*)",
+      "Bash(xargs ls:*)",
+      "Bash(cat:*)",
+      "Bash(xargs:*)"
+    ]
+  }
+}
