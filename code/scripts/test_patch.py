@@ -47,7 +47,7 @@ os.environ['MUJOCO_GL'] = 'osmesa'
 
 from openvla_action_extractor import OpenVLAActionExtractor
 from utils.libero_loader import LIBEROLoader
-from utils.se3_distance import se3_distance
+from utils.se3_distance import se3_distance, normalized_se3_distance, position_only_distance
 
 
 def parse_args():
@@ -74,13 +74,13 @@ def parse_args():
     parser.add_argument('--deviation_threshold', type=float, default=0.3,
                         help='SE(3) distance threshold for "significant" deviation')
 
-    # Trajectory-level metric thresholds
-    parser.add_argument('--drift_threshold', type=float, default=0.2,
-                        help='Cumulative position drift threshold for CDT (meters)')
-    parser.add_argument('--task_scale', type=float, default=0.5,
+    # Trajectory-level metric thresholds (RECALIBRATED for realistic attack evaluation)
+    parser.add_argument('--drift_threshold', type=float, default=0.05,
+                        help='Cumulative position drift threshold for CDT (meters) - 5cm is significant for manipulation')
+    parser.add_argument('--task_scale', type=float, default=0.1,
                         help='Typical task movement range for TFP calculation (meters)')
-    parser.add_argument('--sdr_windows', type=str, default='10,25,50',
-                        help='Comma-separated window sizes for SDR calculation')
+    parser.add_argument('--sdr_windows', type=str, default='3,5,10',
+                        help='Comma-separated window sizes for SDR calculation (smaller windows for short episodes)')
 
     # Patch placement (must match training!)
     parser.add_argument('--patch_x', type=int, default=48,
@@ -105,11 +105,92 @@ def parse_args():
     return parser.parse_args()
 
 
+def compute_actual_trajectory_drift(episode_results: list) -> dict:
+    """
+    Compute TRUE position drift (where robot ends up vs. clean).
+
+    CRITICAL: This computes ||Σ Δ[t]|| (norm of sum), NOT Σ ||Δ[t]|| (sum of norms).
+
+    The difference matters:
+    - Sum of norms: Counts all deviations, even if they oscillate and cancel out
+    - Norm of sum: Measures ACTUAL displacement between clean and patched trajectories
+
+    Example:
+        Oscillating attack: Δ = [+0.05, -0.05, +0.05, -0.05]
+            Sum of norms = 0.20 (looks effective)
+            Norm of sum = 0.00 (actually no effect!)
+
+        Consistent attack: Δ = [+0.02, +0.02, +0.02, +0.02]
+            Sum of norms = 0.08
+            Norm of sum = 0.08 (true drift!)
+
+    Args:
+        episode_results: List of per-frame result dicts with 'clean_pred', 'patched_pred'
+
+    Returns:
+        dict: Contains actual trajectory drift metrics
+    """
+    if not episode_results:
+        return {
+            "final_drift": 0.0,
+            "max_drift": 0.0,
+            "drift_trajectory": [],
+            "final_displacement": [0.0, 0.0, 0.0],
+            "drift_consistency": 0.0,
+            "sum_of_norms": 0.0
+        }
+
+    # Cumulative positions (simulating robot trajectory)
+    clean_position = np.array([0.0, 0.0, 0.0])
+    patched_position = np.array([0.0, 0.0, 0.0])
+
+    drift_over_time = []
+    sum_of_norms = 0.0  # For comparison (the OLD metric)
+
+    for r in episode_results:
+        clean_pred = np.array(r["clean_pred"][:3])
+        patched_pred = np.array(r["patched_pred"][:3])
+
+        clean_position += clean_pred
+        patched_position += patched_pred
+
+        # Per-frame deviation (OLD metric component)
+        frame_deviation = np.linalg.norm(patched_pred - clean_pred)
+        sum_of_norms += frame_deviation
+
+        # Actual displacement at this timestep (NEW metric)
+        displacement = patched_position - clean_position
+        current_drift = np.linalg.norm(displacement)
+        drift_over_time.append(float(current_drift))
+
+    final_displacement = patched_position - clean_position
+    final_drift = np.linalg.norm(final_displacement)
+    max_drift = max(drift_over_time) if drift_over_time else 0.0
+
+    # Drift consistency: ratio of actual drift to sum of norms
+    # 1.0 = perfectly consistent (all deviations same direction)
+    # < 0.5 = significant oscillation (attack partially cancels itself)
+    # ~0 = pure oscillation (no net effect)
+    drift_consistency = final_drift / (sum_of_norms + 1e-8)
+
+    return {
+        "final_drift": float(final_drift),
+        "max_drift": float(max_drift),
+        "drift_trajectory": drift_over_time,
+        "final_displacement": final_displacement.tolist(),
+        "drift_consistency": float(drift_consistency),
+        "sum_of_norms": float(sum_of_norms)  # Keep for comparison
+    }
+
+
 def compute_trajectory_metrics(episode_results: list, drift_threshold: float,
                                 task_scale: float, deviation_threshold: float,
                                 sdr_windows: list) -> dict:
     """
     Compute trajectory-level metrics for an episode.
+
+    UPDATED: Now uses ACTUAL trajectory drift (norm of sum) instead of
+    summed deviation (sum of norms) for CDT and TFP calculations.
 
     These metrics capture the SEQUENTIAL, COMPOUNDING nature of adversarial attacks
     that single-frame metrics miss.
@@ -123,11 +204,12 @@ def compute_trajectory_metrics(episode_results: list, drift_threshold: float,
 
     Returns:
         Dict containing:
-        - cdt_success: Binary, True if cumulative pos drift > drift_threshold
+        - cdt_success: Binary, True if ACTUAL pos drift > drift_threshold
         - ttf_frames: Time-to-failure (frames needed to exceed drift_threshold), None if never
         - sdr: Dict of SDR values for each window size
-        - tfp_score: Task failure proxy score (cumulative_drift / task_scale)
-        - cumulative_pos_drift: Total position drift in meters
+        - tfp_score: Task failure proxy score (actual_drift / task_scale)
+        - actual_drift: The TRUE trajectory drift metrics
+        - legacy_cumulative: Old sum-of-norms metric (for comparison)
     """
     if not episode_results:
         return {
@@ -135,25 +217,32 @@ def compute_trajectory_metrics(episode_results: list, drift_threshold: float,
             "ttf_frames": None,
             "sdr": {w: 0.0 for w in sdr_windows},
             "tfp_score": 0.0,
-            "cumulative_pos_drift": 0.0
+            "cumulative_pos_drift": 0.0,
+            "actual_drift": {
+                "final_drift": 0.0,
+                "max_drift": 0.0,
+                "drift_consistency": 0.0
+            }
         }
 
+    # Compute ACTUAL trajectory drift (the correct metric)
+    actual_drift = compute_actual_trajectory_drift(episode_results)
+
+    # Legacy metrics for comparison
     pos_deviations = [r["pos_deviation"] for r in episode_results]
     deviations = [r["deviation"] for r in episode_results]
     n_frames = len(pos_deviations)
+    legacy_cumulative = sum(pos_deviations)  # Old metric (sum of norms)
 
-    # 1. Cumulative Drift Threshold (CDT)
-    # Binary success: Does cumulative position drift exceed threshold?
-    cumulative_pos_drift = sum(pos_deviations)
-    cdt_success = cumulative_pos_drift > drift_threshold
+    # 1. Cumulative Drift Threshold (CDT) - NOW USES ACTUAL DRIFT
+    # Binary success: Does ACTUAL position drift exceed threshold?
+    cdt_success = actual_drift["final_drift"] > drift_threshold
 
-    # 2. Time-to-Failure (TTF)
+    # 2. Time-to-Failure (TTF) - NOW USES ACTUAL DRIFT
     # Minimum number of frames to exceed drift threshold
     ttf_frames = None
-    running_drift = 0.0
-    for i, pos_dev in enumerate(pos_deviations):
-        running_drift += pos_dev
-        if running_drift > drift_threshold:
+    for i, drift in enumerate(actual_drift["drift_trajectory"]):
+        if drift > drift_threshold:
             ttf_frames = i + 1  # 1-indexed frame count
             break
 
@@ -173,17 +262,23 @@ def compute_trajectory_metrics(episode_results: list, drift_threshold: float,
                     windows_above_threshold += 1
             sdr[window_size] = windows_above_threshold / n_windows
 
-    # 4. Task Failure Proxy (TFP)
-    # Ratio of cumulative drift to typical task movement
+    # 4. Task Failure Proxy (TFP) - NOW USES ACTUAL DRIFT
+    # Ratio of ACTUAL drift to typical task movement
     # TFP > 1.0 suggests high probability of task failure
-    tfp_score = cumulative_pos_drift / task_scale if task_scale > 0 else 0.0
+    tfp_score = actual_drift["final_drift"] / task_scale if task_scale > 0 else 0.0
 
     return {
         "cdt_success": bool(cdt_success),
         "ttf_frames": ttf_frames,
         "sdr": {int(k): float(v) if v is not None else None for k, v in sdr.items()},
         "tfp_score": float(tfp_score),
-        "cumulative_pos_drift": float(cumulative_pos_drift)
+        "cumulative_pos_drift": float(legacy_cumulative),  # Keep legacy for comparison
+        "actual_drift": {
+            "final_drift": float(actual_drift["final_drift"]),
+            "max_drift": float(actual_drift["max_drift"]),
+            "drift_consistency": float(actual_drift["drift_consistency"]),
+            "drift_trajectory": actual_drift["drift_trajectory"]
+        }
     }
 
 
@@ -191,6 +286,9 @@ def compute_aggregate_trajectory_metrics(all_episode_trajectory_metrics: list,
                                          sdr_windows: list) -> dict:
     """
     Aggregate trajectory metrics across all episodes.
+
+    UPDATED: Now includes actual drift metrics (norm of sum) alongside
+    legacy metrics (sum of norms) for comparison.
 
     Args:
         all_episode_trajectory_metrics: List of trajectory metric dicts per episode
@@ -226,16 +324,25 @@ def compute_aggregate_trajectory_metrics(all_episode_trajectory_metrics: list,
         values = [m["sdr"][w] for m in all_episode_trajectory_metrics if m["sdr"].get(w) is not None]
         sdr_means[w] = float(np.mean(values)) if values else None
 
-    # TFP statistics
+    # TFP statistics (now based on actual drift)
     tfp_scores = [m["tfp_score"] for m in all_episode_trajectory_metrics]
     tfp_mean = np.mean(tfp_scores)
     tfp_max = max(tfp_scores)
     tfp_above_1 = sum(1 for t in tfp_scores if t > 1.0) / n_episodes  # Fraction with TFP > 1
 
-    # Cumulative drift statistics
-    drift_values = [m["cumulative_pos_drift"] for m in all_episode_trajectory_metrics]
-    drift_mean = np.mean(drift_values)
-    drift_max = max(drift_values)
+    # Legacy cumulative drift statistics (sum of norms - OLD metric)
+    legacy_drift_values = [m["cumulative_pos_drift"] for m in all_episode_trajectory_metrics]
+    legacy_drift_mean = np.mean(legacy_drift_values)
+    legacy_drift_max = max(legacy_drift_values)
+
+    # ACTUAL drift statistics (norm of sum - NEW metric)
+    actual_drift_values = [m["actual_drift"]["final_drift"] for m in all_episode_trajectory_metrics]
+    actual_drift_mean = np.mean(actual_drift_values)
+    actual_drift_max = max(actual_drift_values)
+
+    # Drift consistency (how consistent is the drift direction?)
+    consistency_values = [m["actual_drift"]["drift_consistency"] for m in all_episode_trajectory_metrics]
+    consistency_mean = np.mean(consistency_values)
 
     return {
         "cdt": {
@@ -255,9 +362,16 @@ def compute_aggregate_trajectory_metrics(all_episode_trajectory_metrics: list,
             "max_score": float(tfp_max),
             "above_1_rate": float(tfp_above_1)
         },
-        "cumulative_drift": {
-            "mean": float(drift_mean),
-            "max": float(drift_max)
+        # NEW: Actual drift (norm of sum) - the CORRECT metric
+        "actual_drift": {
+            "mean": float(actual_drift_mean),
+            "max": float(actual_drift_max),
+            "consistency_mean": float(consistency_mean)
+        },
+        # OLD: Legacy cumulative drift (sum of norms) - for comparison only
+        "legacy_cumulative_drift": {
+            "mean": float(legacy_drift_mean),
+            "max": float(legacy_drift_max)
         }
     }
 
@@ -584,14 +698,26 @@ def main():
         else:
             print(f"  Window {w:3d} frames: N/A (window > episode length)")
 
-    print(f"\n[TFP - Task Failure Proxy (drift / task_scale={args.task_scale}m)]")
+    print(f"\n[TFP - Task Failure Proxy (actual_drift / task_scale={args.task_scale}m)]")
     print(f"  Mean TFP Score:   {aggregate_traj['tfp']['mean_score']:.2f}x task scale")
     print(f"  Max TFP Score:    {aggregate_traj['tfp']['max_score']:.2f}x task scale")
     print(f"  TFP > 1.0 Rate:   {aggregate_traj['tfp']['above_1_rate']*100:.1f}% of episodes")
 
-    print(f"\n[Cumulative Drift Statistics]")
-    print(f"  Mean Episode Drift: {aggregate_traj['cumulative_drift']['mean']:.4f}m")
-    print(f"  Max Episode Drift:  {aggregate_traj['cumulative_drift']['max']:.4f}m")
+    print(f"\n[ACTUAL TRAJECTORY DRIFT (||Σ Δ|| - the CORRECT metric)]")
+    print(f"  Mean Actual Drift:    {aggregate_traj['actual_drift']['mean']:.4f}m")
+    print(f"  Max Actual Drift:     {aggregate_traj['actual_drift']['max']:.4f}m")
+    print(f"  Drift Consistency:    {aggregate_traj['actual_drift']['consistency_mean']:.2f}")
+    print(f"    (1.0 = all deviations same direction, <0.5 = significant oscillation)")
+
+    print(f"\n[LEGACY CUMULATIVE DRIFT (Σ ||Δ|| - for comparison only)]")
+    print(f"  Mean Legacy Drift:    {aggregate_traj['legacy_cumulative_drift']['mean']:.4f}m")
+    print(f"  Max Legacy Drift:     {aggregate_traj['legacy_cumulative_drift']['max']:.4f}m")
+
+    # Alert if there's significant metric discrepancy (indicating oscillation)
+    if aggregate_traj['actual_drift']['consistency_mean'] < 0.5:
+        print(f"\n  ⚠️  WARNING: Low drift consistency ({aggregate_traj['actual_drift']['consistency_mean']:.2f})")
+        print(f"      Attack may be oscillating - deviations canceling out!")
+        print(f"      Actual drift ({aggregate_traj['actual_drift']['mean']:.4f}m) << Legacy ({aggregate_traj['legacy_cumulative_drift']['mean']:.4f}m)")
 
     print("=" * 80)
 

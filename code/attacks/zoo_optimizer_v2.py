@@ -34,7 +34,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from openvla_action_extractor import OpenVLAActionExtractor
-from utils.se3_distance import se3_distance
+from utils.se3_distance import se3_distance, normalized_se3_distance, position_only_distance
 
 
 class ZOOSOptimizerV2:
@@ -61,8 +61,10 @@ class ZOOSOptimizerV2:
                  early_stop_patience: int = 20,
                  deviation_threshold: float = 0.3,
                  position_weight: float = 1.0,
-                 rotation_weight: float = 1.0,
-                 gripper_weight: float = 5.0,
+                 rotation_weight: float = 0.5,
+                 gripper_weight: float = 0.1,
+                 position_only: bool = False,
+                 use_normalized: bool = True,
                  seed: int = 42):
         """
         Args:
@@ -75,10 +77,18 @@ class ZOOSOptimizerV2:
             early_stop_threshold: Deviation rate threshold for early stopping (%)
             early_stop_patience: Steps above threshold before stopping
             deviation_threshold: SE(3) distance threshold for "significant" deviation
-            position_weight: Weight on position deviation in loss
-            rotation_weight: Weight on rotation deviation in loss
-            gripper_weight: Weight on gripper change in loss
+            position_weight: Weight on position deviation (default: 1.0)
+            rotation_weight: Weight on rotation deviation (default: 0.5, reduced from 1.0)
+            gripper_weight: Weight on gripper change (default: 0.1, reduced from 5.0!)
+            position_only: If True, only optimize for position deviation (ignores rotation/gripper)
+            use_normalized: If True, use normalized SE(3) distance (scale-invariant)
             seed: Random seed for reproducibility
+
+        V2 Updates:
+        - Default gripper_weight reduced from 5.0 to 0.1 (de-prioritize gripper flips)
+        - Default rotation_weight reduced from 1.0 to 0.5
+        - Added position_only mode for pure trajectory drift optimization
+        - Added use_normalized mode for scale-invariant distance computation
         """
         self.model = model
         self.patch_size = patch_size
@@ -95,6 +105,10 @@ class ZOOSOptimizerV2:
         self.w_pos = position_weight
         self.w_rot = rotation_weight
         self.w_grip = gripper_weight
+
+        # New optimization modes
+        self.position_only = position_only
+        self.use_normalized = use_normalized
 
         # Use seeded random state for reproducibility
         self.seed = seed
@@ -144,6 +158,11 @@ class ZOOSOptimizerV2:
         """
         Compute component-wise deviation between patched and clean predictions.
 
+        Supports three modes:
+        1. position_only=True: Only position deviation matters (for trajectory drift)
+        2. use_normalized=True: Use scale-invariant normalized distance
+        3. Default: Weighted raw distances (legacy mode)
+
         Returns:
             Dict with pos_dev, rot_dev, grip_dev, total_dev
         """
@@ -151,7 +170,37 @@ class ZOOSOptimizerV2:
         rot_dev = np.linalg.norm(patched_pred[3:6] - clean_pred[3:6])
         grip_dev = np.abs(patched_pred[6] - clean_pred[6])
 
-        # Weighted total (same as SE3 distance but with configurable weights)
+        # Mode 1: Position-only (for pure trajectory drift optimization)
+        if self.position_only:
+            total_dev = pos_dev
+            return {
+                "pos_dev": pos_dev,
+                "rot_dev": rot_dev,
+                "grip_dev": grip_dev,
+                "total_dev": total_dev,
+                "se3_dev": pos_dev + rot_dev + grip_dev
+            }
+
+        # Mode 2: Normalized (scale-invariant) distance
+        if self.use_normalized:
+            norm_result = normalized_se3_distance(
+                patched_pred, clean_pred,
+                w_pos=self.w_pos,
+                w_rot=self.w_rot,
+                w_grip=self.w_grip
+            )
+            return {
+                "pos_dev": pos_dev,
+                "rot_dev": rot_dev,
+                "grip_dev": grip_dev,
+                "total_dev": norm_result['total'],
+                "se3_dev": pos_dev + rot_dev + grip_dev,
+                "pos_norm": norm_result['pos_norm'],
+                "rot_norm": norm_result['rot_norm'],
+                "grip_norm": norm_result['grip_norm']
+            }
+
+        # Mode 3: Legacy weighted raw distances
         total_dev = self.w_pos * pos_dev + self.w_rot * rot_dev + self.w_grip * grip_dev
 
         return {
@@ -159,7 +208,7 @@ class ZOOSOptimizerV2:
             "rot_dev": rot_dev,
             "grip_dev": grip_dev,
             "total_dev": total_dev,
-            "se3_dev": pos_dev + rot_dev + grip_dev  # Standard SE3 for comparison
+            "se3_dev": pos_dev + rot_dev + grip_dev
         }
 
     def compute_loss(self, patched_pred: np.ndarray, clean_pred: np.ndarray) -> float:
@@ -349,7 +398,12 @@ class ZOOSOptimizerV2:
         print("ZOO V2: MAXIMIZE DEVIATION ATTACK (Direction 2 Aligned)")
         print(f"{'='*70}")
         print(f"Goal: Maximize deviation from clean predictions")
-        print(f"Metric: Average SE(3) deviation across frames")
+        if self.position_only:
+            print(f"Mode: POSITION-ONLY (optimizing for trajectory drift)")
+        elif self.use_normalized:
+            print(f"Mode: NORMALIZED SE(3) (scale-invariant)")
+        else:
+            print(f"Mode: LEGACY (weighted raw distances)")
         print(f"{'='*70}")
         print(f"Query budget:     {self.query_budget}")
         print(f"Mini-batch size:  {self.mini_batch_size}")
@@ -358,6 +412,8 @@ class ZOOSOptimizerV2:
         print(f"Patch size:       {self.patch_size}x{self.patch_size}")
         print(f"Patch position:   {patch_position}")
         print(f"Weights:          pos={self.w_pos}, rot={self.w_rot}, grip={self.w_grip}")
+        print(f"Position-only:    {self.position_only}")
+        print(f"Use normalized:   {self.use_normalized}")
         print(f"Deviation thresh: {self.deviation_threshold}")
         print(f"Training episodes:{len(episodes)}")
         print(f"Seed:             {self.seed}")

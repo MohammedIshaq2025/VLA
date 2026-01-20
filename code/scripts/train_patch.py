@@ -73,12 +73,21 @@ def parse_args():
                         help='Number of consecutive steps above threshold for early stop')
 
     # Component weights (Direction 2: position matters most for trajectory drift)
+    # V2 DEFAULTS: De-prioritize gripper (was 5.0, now 0.1) to prevent gripper-dominated attacks
     parser.add_argument('--position_weight', type=float, default=1.0,
                         help='Weight on position deviation in loss')
-    parser.add_argument('--rotation_weight', type=float, default=1.0,
-                        help='Weight on rotation deviation in loss')
-    parser.add_argument('--gripper_weight', type=float, default=5.0,
-                        help='Weight on gripper change in loss')
+    parser.add_argument('--rotation_weight', type=float, default=0.5,
+                        help='Weight on rotation deviation in loss (reduced from 1.0)')
+    parser.add_argument('--gripper_weight', type=float, default=0.1,
+                        help='Weight on gripper change in loss (reduced from 5.0!)')
+
+    # Optimization modes (NEW in V2)
+    parser.add_argument('--position_only', action='store_true',
+                        help='Only optimize for position deviation (ignore rotation/gripper)')
+    parser.add_argument('--use_normalized', action='store_true', default=True,
+                        help='Use normalized SE(3) distance (scale-invariant)')
+    parser.add_argument('--no_normalized', dest='use_normalized', action='store_false',
+                        help='Use legacy weighted raw distances')
 
     # Patch placement
     parser.add_argument('--patch_x', type=int, default=48,
@@ -151,6 +160,8 @@ def main():
     print(f"Perturbation σ:   {args.perturbation_scale}")
     print(f"Deviation thresh: {args.deviation_threshold}")
     print(f"Weights:          pos={args.position_weight}, rot={args.rotation_weight}, grip={args.gripper_weight}")
+    print(f"Position-only:    {args.position_only}")
+    print(f"Use normalized:   {args.use_normalized}")
     print(f"Device:           {args.device}")
     print(f"Seed:             {args.seed}")
     print("=" * 80)
@@ -210,7 +221,9 @@ def main():
         position_weight=args.position_weight,
         rotation_weight=args.rotation_weight,
         gripper_weight=args.gripper_weight,
-        seed=args.seed  # FIXED: Now passing seed to optimizer
+        position_only=args.position_only,
+        use_normalized=args.use_normalized,
+        seed=args.seed
     )
 
     # Train patch
