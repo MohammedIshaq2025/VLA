@@ -1,0 +1,727 @@
+{
+  "run_id": "v2_eval_libero_spatial_task1_q200_20260120_115428",
+  "timestamp": "20260120_120336",
+  "direction": "Direction 2: Deviation Analysis for Closed-Loop Attack",
+  "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/v2_eval_libero_spatial_task1_q200_20260120_115428_patch.npy",
+  "patch_position": [
+    48,
+    48
+  ],
+  "args": {
+    "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/v2_eval_libero_spatial_task1_q200_20260120_115428_patch.npy",
+    "suite": "libero_spatial",
+    "task_id": 1,
+    "train_ratio": 0.7,
+    "frames_per_episode": 10,
+    "deviation_threshold": 0.3,
+    "drift_threshold": 0.05,
+    "task_scale": 0.1,
+    "sdr_windows": "3,5,10",
+    "patch_x": 48,
+    "patch_y": 48,
+    "model_path": "/data1/ma1/Ishaq/ump-vla/checkpoints/openvla-7b",
+    "device": "cuda:0",
+    "output_dir": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack",
+    "seed": 42
+  },
+  "task_info": {
+    "task_name": "pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate",
+    "instruction": "pick up the black bowl next to the ramekin and place it on the plate",
+    "total_episodes": 50,
+    "test_episodes": 15,
+    "test_indices": [
+      1,
+      2,
+      5,
+      6,
+      7,
+      8,
+      14,
+      15,
+      17,
+      27,
+      34,
+      37,
+      40,
+      47,
+      49
+    ],
+    "frames_per_episode": 10,
+    "total_frames": 150
+  },
+  "testing_time_seconds": 54.21571493148804,
+  "metrics": {
+    "deviation": {
+      "average": 0.3886133598679285,
+      "std": 0.45667334145976374,
+      "max": 1.159697538058536,
+      "min": 0.016246624697433383,
+      "rate": 0.32
+    },
+    "components": {
+      "position": 0.01747267263557203,
+      "rotation": 0.06321911860490546,
+      "gripper": 0.30792156862745096
+    },
+    "cumulative": {
+      "avg_per_episode": 3.8861335986792844,
+      "total": 58.29200398018927,
+      "total_position": 2.6209008953358057,
+      "projected_100_frames": 1.7472672635572037
+    },
+    "baseline": {
+      "avg_gt_error_clean": 1.738972671088692,
+      "avg_gt_error_patched": 1.6619635437985876,
+      "error_change": -0.07700912729010434
+    },
+    "trajectory": {
+      "cdt": {
+        "success_rate": 0.7333333333333333,
+        "n_successes": 11,
+        "n_episodes": 15
+      },
+      "ttf": {
+        "mean_frames": 5.769230769230769,
+        "min_frames": 2,
+        "max_frames": 10,
+        "success_rate": 0.8666666666666667
+      },
+      "sdr": {
+        "3": 0.6333333333333333,
+        "5": 0.6222222222222222,
+        "10": 0.7333333333333333
+      },
+      "tfp": {
+        "mean_score": 0.634747677040636,
+        "max_score": 1.0445507507533318,
+        "above_1_rate": 0.2
+      },
+      "actual_drift": {
+        "mean": 0.06347476770406359,
+        "max": 0.10445507507533319,
+        "consistency_mean": 0.3716796679915685
+      },
+      "legacy_cumulative_drift": {
+        "mean": 0.17472672635572026,
+        "max": 0.23219150938653288
+      }
+    }
+  },
+  "episode_metrics": [
+    {
+      "episode_id": 0,
+      "original_id": 1,
+      "num_frames": 10,
+      "avg_deviation": 0.8054596354118848,
+      "std_deviation": 0.4311477157942713,
+      "avg_pos_deviation": 0.01807031298289044,
+      "avg_rot_deviation": 0.09013442046821019,
+      "avg_grip_deviation": 0.6972549019607843,
+      "deviation_rate": 0.7,
+      "cumulative_deviation": 8.054596354118848,
+      "cumulative_pos_deviation": 0.1807031298289044,
+      "trajectory_metrics": {
+        "cdt_success": true,
+        "ttf_frames": 10,
+        "sdr": {
+          "3": 1.0,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "tfp_score": 0.7492919100470625,
+        "cumulative_pos_drift": 0.1807031298289044,
+        "actual_drift": {
+          "final_drift": 0.07492919100470626,
+          "max_drift": 0.07492919100470626,
+          "drift_consistency": 0.4146535089299037,
+          "drift_trajectory": [
+            0.03836064447198313,
+            0.036582872622835064,
+            0.037294419559235965,
+            0.040008331109315315,
+            0.026918686026863054,
+            0.014520354606854177,
+            0.015539525827723898,
+            0.043271069078301076,
+            0.03818948295085141,
+            0.07492919100470626
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 1,
+      "original_id": 2,
+      "num_frames": 10,
+      "avg_deviation": 0.2776960987897285,
+      "std_deviation": 0.41431351853743015,
+      "avg_pos_deviation": 0.02243172181683418,
+      "avg_rot_deviation": 0.05369574952191393,
+      "avg_grip_deviation": 0.2015686274509804,
+      "deviation_rate": 0.2,
+      "cumulative_deviation": 2.7769609878972847,
+      "cumulative_pos_deviation": 0.22431721816834174,
+      "trajectory_metrics": {
+        "cdt_success": true,
+        "ttf_frames": 6,
+        "sdr": {
+          "3": 0.625,
+          "5": 0.5,
+          "10": 0.0
+        },
+        "tfp_score": 0.5177059099714176,
+        "cumulative_pos_drift": 0.22431721816834174,
+        "actual_drift": {
+          "final_drift": 0.05177059099714176,
+          "max_drift": 0.0602404228436677,
+          "drift_consistency": 0.23079186302306598,
+          "drift_trajectory": [
+            0.01483963221855383,
+            0.008132237834360338,
+            0.012619128354972772,
+            0.03604979803727392,
+            0.026475718742794266,
+            0.055128858830907644,
+            0.04528974252031655,
+            0.0602404228436677,
+            0.052501670566194716,
+            0.05177059099714176
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 2,
+      "original_id": 5,
+      "num_frames": 10,
+      "avg_deviation": 0.4758953767099559,
+      "std_deviation": 0.4906645531002228,
+      "avg_pos_deviation": 0.020002546771878772,
+      "avg_rot_deviation": 0.05746145738905761,
+      "avg_grip_deviation": 0.3984313725490196,
+      "deviation_rate": 0.4,
+      "cumulative_deviation": 4.758953767099559,
+      "cumulative_pos_deviation": 0.20002546771878774,
+      "trajectory_metrics": {
+        "cdt_success": true,
+        "ttf_frames": 4,
+        "sdr": {
+          "3": 0.75,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "tfp_score": 0.6366556102026997,
+        "cumulative_pos_drift": 0.20002546771878774,
+        "actual_drift": {
+          "final_drift": 0.06366556102026998,
+          "max_drift": 0.08734781213322793,
+          "drift_consistency": 0.31828725893496557,
+          "drift_trajectory": [
+            0.0020618761658912415,
+            0.019897783439905496,
+            0.031178446151879632,
+            0.05167411592155009,
+            0.07151407387411415,
+            0.08669212812711426,
+            0.08734781213322793,
+            0.06574064632592382,
+            0.07215941679104569,
+            0.06366556102026998
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 3,
+      "original_id": 6,
+      "num_frames": 10,
+      "avg_deviation": 0.16650221421520434,
+      "std_deviation": 0.30390061797619233,
+      "avg_pos_deviation": 0.013189664215216107,
+      "avg_rot_deviation": 0.05292039313724313,
+      "avg_grip_deviation": 0.1003921568627451,
+      "deviation_rate": 0.1,
+      "cumulative_deviation": 1.6650221421520432,
+      "cumulative_pos_deviation": 0.13189664215216107,
+      "trajectory_metrics": {
+        "cdt_success": false,
+        "ttf_frames": 2,
+        "sdr": {
+          "3": 0.375,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "tfp_score": 0.3620865740535491,
+        "cumulative_pos_drift": 0.13189664215216107,
+        "actual_drift": {
+          "final_drift": 0.036208657405354915,
+          "max_drift": 0.057715119917778876,
+          "drift_consistency": 0.2745229451584807,
+          "drift_trajectory": [
+            0.034610283663863844,
+            0.05044869563654153,
+            0.057715119917778876,
+            0.05550555548479435,
+            0.053466603143564696,
+            0.04512495635764481,
+            0.043562975805422406,
+            0.04133197695221168,
+            0.040766266118911626,
+            0.036208657405354915
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 4,
+      "original_id": 7,
+      "num_frames": 10,
+      "avg_deviation": 0.19127217773020636,
+      "std_deviation": 0.2964005867087908,
+      "avg_pos_deviation": 0.01973259985265518,
+      "avg_rot_deviation": 0.07193173474029628,
+      "avg_grip_deviation": 0.0996078431372549,
+      "deviation_rate": 0.1,
+      "cumulative_deviation": 1.9127217773020635,
+      "cumulative_pos_deviation": 0.19732599852655178,
+      "trajectory_metrics": {
+        "cdt_success": true,
+        "ttf_frames": 4,
+        "sdr": {
+          "3": 0.125,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "tfp_score": 1.0060987294285542,
+        "cumulative_pos_drift": 0.19732599852655178,
+        "actual_drift": {
+          "final_drift": 0.10060987294285542,
+          "max_drift": 0.1087492346780089,
+          "drift_consistency": 0.5098662548040015,
+          "drift_trajectory": [
+            0.023205898026690455,
+            0.016987644629861853,
+            0.028134027510856047,
+            0.06262163885447126,
+            0.09529832285838112,
+            0.10865877655780964,
+            0.1087492346780089,
+            0.10156633656148864,
+            0.10672612976310752,
+            0.10060987294285542
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 5,
+      "original_id": 8,
+      "num_frames": 10,
+      "avg_deviation": 0.38172729569493213,
+      "std_deviation": 0.4642132002118118,
+      "avg_pos_deviation": 0.015073753481443195,
+      "avg_rot_deviation": 0.06783001280172425,
+      "avg_grip_deviation": 0.2988235294117647,
+      "deviation_rate": 0.3,
+      "cumulative_deviation": 3.817272956949322,
+      "cumulative_pos_deviation": 0.15073753481443194,
+      "trajectory_metrics": {
+        "cdt_success": false,
+        "ttf_frames": null,
+        "sdr": {
+          "3": 0.625,
+          "5": 0.6666666666666666,
+          "10": 1.0
+        },
+        "tfp_score": 0.28078213298300825,
+        "cumulative_pos_drift": 0.15073753481443194,
+        "actual_drift": {
+          "final_drift": 0.028078213298300826,
+          "max_drift": 0.04716019780597768,
+          "drift_consistency": 0.1862721947134471,
+          "drift_trajectory": [
+            0.014652552466890819,
+            0.012211787976762825,
+            0.018518594425800613,
+            0.019807233061756815,
+            0.027052974786518618,
+            0.02774208380029192,
+            0.04716019780597768,
+            0.03613202606837261,
+            0.029974664718452153,
+            0.028078213298300826
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 6,
+      "original_id": 14,
+      "num_frames": 10,
+      "avg_deviation": 0.5870775266550572,
+      "std_deviation": 0.47562069364376663,
+      "avg_pos_deviation": 0.017626468443172245,
+      "avg_rot_deviation": 0.05886282291776727,
+      "avg_grip_deviation": 0.5105882352941176,
+      "deviation_rate": 0.5,
+      "cumulative_deviation": 5.870775266550572,
+      "cumulative_pos_deviation": 0.17626468443172244,
+      "trajectory_metrics": {
+        "cdt_success": true,
+        "ttf_frames": 5,
+        "sdr": {
+          "3": 1.0,
+          "5": 0.8333333333333334,
+          "10": 1.0
+        },
+        "tfp_score": 0.6038455929412336,
+        "cumulative_pos_drift": 0.17626468443172244,
+        "actual_drift": {
+          "final_drift": 0.06038455929412336,
+          "max_drift": 0.06703906142529983,
+          "drift_consistency": 0.3425788669069733,
+          "drift_trajectory": [
+            0.025205131214476505,
+            0.02724558556534992,
+            0.03663875495492272,
+            0.04141545502284914,
+            0.06703906142529983,
+            0.0426425473258711,
+            0.040268904675246374,
+            0.040268904675246374,
+            0.04326352726520096,
+            0.06038455929412336
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 7,
+      "original_id": 15,
+      "num_frames": 10,
+      "avg_deviation": 0.4878378125864553,
+      "std_deviation": 0.4847776409615679,
+      "avg_pos_deviation": 0.023110019663693686,
+      "avg_rot_deviation": 0.066296420373742,
+      "avg_grip_deviation": 0.3984313725490196,
+      "deviation_rate": 0.4,
+      "cumulative_deviation": 4.878378125864552,
+      "cumulative_pos_deviation": 0.23110019663693687,
+      "trajectory_metrics": {
+        "cdt_success": true,
+        "ttf_frames": 6,
+        "sdr": {
+          "3": 0.75,
+          "5": 0.8333333333333334,
+          "10": 1.0
+        },
+        "tfp_score": 0.5487281782262815,
+        "cumulative_pos_drift": 0.23110019663693687,
+        "actual_drift": {
+          "final_drift": 0.05487281782262816,
+          "max_drift": 0.07730812318677886,
+          "drift_consistency": 0.23744166490008584,
+          "drift_trajectory": [
+            0.006587173738384765,
+            0.030571475698917463,
+            0.010775130263656788,
+            0.013841847843564573,
+            0.02784705537530354,
+            0.0652560585784755,
+            0.0662682929571183,
+            0.07730812318677886,
+            0.05469485005028002,
+            0.05487281782262816
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 8,
+      "original_id": 17,
+      "num_frames": 10,
+      "avg_deviation": 0.5486060150834795,
+      "std_deviation": 0.4881681656430067,
+      "avg_pos_deviation": 0.023219150938653295,
+      "avg_rot_deviation": 0.08695549159580655,
+      "avg_grip_deviation": 0.43843137254901965,
+      "deviation_rate": 0.5,
+      "cumulative_deviation": 5.4860601508347955,
+      "cumulative_pos_deviation": 0.23219150938653288,
+      "trajectory_metrics": {
+        "cdt_success": true,
+        "ttf_frames": 9,
+        "sdr": {
+          "3": 0.875,
+          "5": 1.0,
+          "10": 1.0
+        },
+        "tfp_score": 0.5046637102255458,
+        "cumulative_pos_drift": 0.23219150938653288,
+        "actual_drift": {
+          "final_drift": 0.05046637102255458,
+          "max_drift": 0.05127324604404443,
+          "drift_consistency": 0.21734803732664507,
+          "drift_trajectory": [
+            0.013936315002473651,
+            0.007427081993123802,
+            0.02680884142823375,
+            0.023743041684764103,
+            0.02645608044036718,
+            0.012386431461460503,
+            0.024576977707940435,
+            0.0216362525272108,
+            0.05127324604404443,
+            0.05046637102255458
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 9,
+      "original_id": 27,
+      "num_frames": 10,
+      "avg_deviation": 0.37240402513600895,
+      "std_deviation": 0.47087057631843976,
+      "avg_pos_deviation": 0.01196565755359001,
+      "avg_rot_deviation": 0.06161483817065422,
+      "avg_grip_deviation": 0.2988235294117647,
+      "deviation_rate": 0.3,
+      "cumulative_deviation": 3.7240402513600896,
+      "cumulative_pos_deviation": 0.11965657553590012,
+      "trajectory_metrics": {
+        "cdt_success": true,
+        "ttf_frames": 8,
+        "sdr": {
+          "3": 0.75,
+          "5": 0.8333333333333334,
+          "10": 1.0
+        },
+        "tfp_score": 0.5526709323326484,
+        "cumulative_pos_drift": 0.11965657553590012,
+        "actual_drift": {
+          "final_drift": 0.05526709323326485,
+          "max_drift": 0.056212362009782905,
+          "drift_consistency": 0.4618809151685452,
+          "drift_trajectory": [
+            0.012657796634133517,
+            0.00909872479730424,
+            0.020464053021938,
+            0.01983627485812305,
+            0.02217311200411409,
+            0.03266747556325522,
+            0.038437024461584014,
+            0.0506825551303768,
+            0.056212362009782905,
+            0.05526709323326485
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 10,
+      "original_id": 34,
+      "num_frames": 10,
+      "avg_deviation": 0.3706278377558497,
+      "std_deviation": 0.45587204786112834,
+      "avg_pos_deviation": 0.013542606277032401,
+      "avg_rot_deviation": 0.05826170206705259,
+      "avg_grip_deviation": 0.2988235294117647,
+      "deviation_rate": 0.3,
+      "cumulative_deviation": 3.7062783775584975,
+      "cumulative_pos_deviation": 0.135426062770324,
+      "trajectory_metrics": {
+        "cdt_success": true,
+        "ttf_frames": 6,
+        "sdr": {
+          "3": 0.625,
+          "5": 0.6666666666666666,
+          "10": 1.0
+        },
+        "tfp_score": 0.874710507684012,
+        "cumulative_pos_drift": 0.135426062770324,
+        "actual_drift": {
+          "final_drift": 0.08747105076840121,
+          "max_drift": 0.08747105076840121,
+          "drift_consistency": 0.6458952030363299,
+          "drift_trajectory": [
+            0.0012453779986112356,
+            0.023344493190348724,
+            0.02563908437813391,
+            0.04126840525971944,
+            0.047732978510620756,
+            0.05269201854887102,
+            0.05446616745867886,
+            0.05727913101432883,
+            0.06653653312242104,
+            0.08747105076840121
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 11,
+      "original_id": 37,
+      "num_frames": 10,
+      "avg_deviation": 0.3997315399980718,
+      "std_deviation": 0.4391991834998153,
+      "avg_pos_deviation": 0.01781615672859844,
+      "avg_rot_deviation": 0.057209500916532166,
+      "avg_grip_deviation": 0.3247058823529412,
+      "deviation_rate": 0.4,
+      "cumulative_deviation": 3.9973153999807174,
+      "cumulative_pos_deviation": 0.17816156728598442,
+      "trajectory_metrics": {
+        "cdt_success": true,
+        "ttf_frames": 3,
+        "sdr": {
+          "3": 0.75,
+          "5": 0.8333333333333334,
+          "10": 1.0
+        },
+        "tfp_score": 1.0366193528076708,
+        "cumulative_pos_drift": 0.17816156728598442,
+        "actual_drift": {
+          "final_drift": 0.10366193528076709,
+          "max_drift": 0.10366193528076709,
+          "drift_consistency": 0.5818422628486796,
+          "drift_trajectory": [
+            0.029706178880140825,
+            0.03851913766078432,
+            0.09090307950968068,
+            0.10157585345286622,
+            0.0998950982228456,
+            0.10324483192805901,
+            0.09244534378918172,
+            0.09412227621745395,
+            0.09710941274367474,
+            0.10366193528076709
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 12,
+      "original_id": 40,
+      "num_frames": 10,
+      "avg_deviation": 0.32973888119234573,
+      "std_deviation": 0.38278419496380306,
+      "avg_pos_deviation": 0.01879481175036548,
+      "avg_rot_deviation": 0.06466955963805865,
+      "avg_grip_deviation": 0.24627450980392157,
+      "deviation_rate": 0.3,
+      "cumulative_deviation": 3.297388811923457,
+      "cumulative_pos_deviation": 0.18794811750365478,
+      "trajectory_metrics": {
+        "cdt_success": true,
+        "ttf_frames": 6,
+        "sdr": {
+          "3": 0.5,
+          "5": 0.5,
+          "10": 1.0
+        },
+        "tfp_score": 1.0445507507533318,
+        "cumulative_pos_drift": 0.18794811750365478,
+        "actual_drift": {
+          "final_drift": 0.10445507507533319,
+          "max_drift": 0.10445507507533319,
+          "drift_consistency": 0.55576544689599,
+          "drift_trajectory": [
+            0.016481485840045076,
+            0.03533885497026676,
+            0.03955018528646948,
+            0.046745025028280256,
+            0.046873765687400634,
+            0.05099522496425774,
+            0.06444962395091805,
+            0.09814047689740198,
+            0.09842112183642578,
+            0.10445507507533319
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 13,
+      "original_id": 47,
+      "num_frames": 10,
+      "avg_deviation": 0.37203258862113514,
+      "std_deviation": 0.443601372353941,
+      "avg_pos_deviation": 0.016860871725411973,
+      "avg_rot_deviation": 0.0485050502290564,
+      "avg_grip_deviation": 0.30666666666666664,
+      "deviation_rate": 0.3,
+      "cumulative_deviation": 3.7203258862113504,
+      "cumulative_pos_deviation": 0.16860871725411974,
+      "trajectory_metrics": {
+        "cdt_success": false,
+        "ttf_frames": 6,
+        "sdr": {
+          "3": 0.75,
+          "5": 0.6666666666666666,
+          "10": 1.0
+        },
+        "tfp_score": 0.44999276007833544,
+        "cumulative_pos_drift": 0.16860871725411974,
+        "actual_drift": {
+          "final_drift": 0.044999276007833544,
+          "max_drift": 0.07131126266682103,
+          "drift_consistency": 0.2668858056203259,
+          "drift_trajectory": [
+            0.00946611672797519,
+            0.007510089727824249,
+            0.017394158188544624,
+            0.019579386226382608,
+            0.025178452142905768,
+            0.07131126266682103,
+            0.061352996556575785,
+            0.06525942249646821,
+            0.06214087215158305,
+            0.044999276007833544
+          ]
+        }
+      }
+    },
+    {
+      "episode_id": 14,
+      "original_id": 49,
+      "num_frames": 10,
+      "avg_deviation": 0.06259137243861149,
+      "std_deviation": 0.03752805548264275,
+      "avg_pos_deviation": 0.010653747332145056,
+      "avg_rot_deviation": 0.051937625106466434,
+      "avg_grip_deviation": 0.0,
+      "deviation_rate": 0.0,
+      "cumulative_deviation": 0.6259137243861149,
+      "cumulative_pos_deviation": 0.10653747332145057,
+      "trajectory_metrics": {
+        "cdt_success": false,
+        "ttf_frames": null,
+        "sdr": {
+          "3": 0.0,
+          "5": 0.0,
+          "10": 0.0
+        },
+        "tfp_score": 0.3528125038741865,
+        "cumulative_pos_drift": 0.10653747332145057,
+        "actual_drift": {
+          "final_drift": 0.03528125038741865,
+          "max_drift": 0.040783532356323385,
+          "drift_consistency": 0.3311627916060884,
+          "drift_trajectory": [
+            0.0070327638257386615,
+            0.006546673973635769,
+            0.0061486764943143556,
+            0.010545315769461624,
+            0.004246580060264189,
+            0.014900637359033278,
+            0.03926273318176575,
+            0.040783532356323385,
+            0.040783532356323385,
+            0.03528125038741865
+          ]
+        }
+      }
+    }
+  ]
+}

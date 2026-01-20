@@ -346,3 +346,99 @@
         "sdr_50": 0
       }
     }
+,
+    {
+      "task_id": 4,
+      "queries": 500,
+      "run_id": "full_eval_20260120_072934_q500_task4_20260120_102835",
+      "run_time_seconds": 1273,
+      "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/full_eval_20260120_072934_q500_task4_20260120_102835_patch.npy",
+      "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/full_eval_20260120_072934_q500_task4_20260120_102835_testing.json",
+      "frame_metrics": {
+        "avg_deviation": 0.5461778671278602,
+        "deviation_rate": 0.47333333333333333,
+        "position_deviation": 0.017355749283613827
+      },
+      "trajectory_metrics": {
+        "cdt_success_rate": 0.3333333333333333,
+        "ttf_mean_frames": 9.8,
+        "tfp_mean_score": 0.3471149856722766,
+        "tfp_above_1_rate": 0.0,
+        "drift_mean": 0.1735574928361383,
+        "sdr_10": 0.9333333333333333,
+        "sdr_25": 0,
+        "sdr_50": 0
+      }
+    }
+,
+    {
+      "task_id": 5,
+      "queries": 500,
+      "run_id": "full_eval_20260120_072934_q500_task5_20260120_104949",
+      "run_time_seconds": 1298,
+      "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/full_eval_20260120_072934_q500_task5_20260120_104949_patch.npy",
+      "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/full_eval_20260120_072934_q500_task5_20260120_104949_testing.json",
+      "frame_metrics": {
+        "avg_deviation": 0.3565869251438508,
+        "deviation_rate": 0.3,
+        "position_deviation": 0.015050499540095288
+      },
+      "trajectory_metrics": {
+        "cdt_success_rate": 0.2,
+        "ttf_mean_frames": 8.666666666666666,
+        "tfp_mean_score": 0.3010099908019057,
+        "tfp_above_1_rate": 0.0,
+        "drift_mean": 0.15050499540095286,
+        "sdr_10": 0.6,
+        "sdr_25": 0,
+        "sdr_50": 0
+      }
+    }
+,
+    {
+      "task_id": 6,
+      "queries": 500,
+      "run_id": "full_eval_20260120_072934_q500_task6_20260120_111126",
+      "run_time_seconds": 1281,
+      "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/full_eval_20260120_072934_q500_task6_20260120_111126_patch.npy",
+      "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/full_eval_20260120_072934_q500_task6_20260120_111126_testing.json",
+      "frame_metrics": {
+        "avg_deviation": 0.4408169838814146,
+        "deviation_rate": 0.38666666666666666,
+        "position_deviation": 0.013892186991288013
+      },
+      "trajectory_metrics": {
+        "cdt_success_rate": 0.0,
+        "ttf_mean_frames": null,
+        "tfp_mean_score": 0.2778437398257603,
+        "tfp_above_1_rate": 0.0,
+        "drift_mean": 0.13892186991288016,
+        "sdr_10": 0.9333333333333333,
+        "sdr_25": 0,
+        "sdr_50": 0
+      }
+    }
+,
+    {
+      "task_id": 7,
+      "queries": 500,
+      "run_id": "full_eval_20260120_072934_q500_task7_20260120_113247",
+      "run_time_seconds": 1266,
+      "patch_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/patches/full_eval_20260120_072934_q500_task7_20260120_113247_patch.npy",
+      "results_path": "/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/results/full_eval_20260120_072934_q500_task7_20260120_113247_testing.json",
+      "frame_metrics": {
+        "avg_deviation": 0.4884204853055233,
+        "deviation_rate": 0.4266666666666667,
+        "position_deviation": 0.013254467225608427
+      },
+      "trajectory_metrics": {
+        "cdt_success_rate": 0.0,
+        "ttf_mean_frames": null,
+        "tfp_mean_score": 0.26508934451216853,
+        "tfp_above_1_rate": 0.0,
+        "drift_mean": 0.13254467225608427,
+        "sdr_10": 0.7333333333333333,
+        "sdr_25": 0,
+        "sdr_50": 0
+      }
+    }

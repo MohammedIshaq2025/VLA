@@ -8,7 +8,7 @@
 #SBATCH --mem=64G
 #SBATCH --mcs-label=mcs
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=your@email.com
+#SBATCH --mail-user=mmohammedsho@student.unimelb.edu.au
 #SBATCH --output=/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/logs/v2_eval_%A_%a.out
 #SBATCH --error=/data1/ma1/Ishaq/ump-vla/outputs/se3_zoo_attack/logs/v2_eval_%A_%a.err
 #SBATCH --array=0-9
