@@ -8,6 +8,7 @@ import numpy as np
 from PIL import Image
 from transformers import AutoModelForVision2Seq, AutoProcessor
 from typing import Optional
+import sys
 
 
 class OpenVLAActionExtractor:
@@ -31,14 +32,21 @@ class OpenVLAActionExtractor:
         self.model_path = model_path
         
         print(f"[OpenVLA] Loading model from {model_path} on {device}...")
+        sys.stdout.flush()
         
         # Load processor
+        print(f"[OpenVLA] Step 1/4: Loading processor...")
+        sys.stdout.flush()
         self.processor = AutoProcessor.from_pretrained(
             model_path,
             trust_remote_code=True
         )
+        print(f"[OpenVLA] ✓ Processor loaded")
+        sys.stdout.flush()
         
         # Load model
+        print(f"[OpenVLA] Step 2/4: Loading model weights...")
+        sys.stdout.flush()
         self.model = AutoModelForVision2Seq.from_pretrained(
             model_path,
             trust_remote_code=True,
@@ -46,15 +54,30 @@ class OpenVLAActionExtractor:
             low_cpu_mem_usage=True,
             load_in_4bit=False
         )
+        print(f"[OpenVLA] ✓ Model weights loaded")
+        sys.stdout.flush()
         
+        # Move to device
         if device.startswith("cuda"):
+            print(f"[OpenVLA] Step 3/4: Moving model to {device}...")
+            sys.stdout.flush()
             self.model = self.model.to(device)
+            print(f"[OpenVLA] ✓ Model moved to {device}")
+            sys.stdout.flush()
         
         # Default unnorm_key for action denormalization
         self.unnorm_key = "bridge_orig"
         
-        print(f"[OpenVLA] Model loaded successfully")
-        print(f"[OpenVLA] Action dim: {self.model.get_action_dim(self.unnorm_key)}")
+        print(f"[OpenVLA] Step 4/4: Getting action dimension...")
+        sys.stdout.flush()
+        try:
+            action_dim = self.model.get_action_dim(self.unnorm_key)
+            print(f"[OpenVLA] ✓ Model loaded successfully")
+            print(f"[OpenVLA] Action dim: {action_dim}")
+        except Exception as e:
+            print(f"[OpenVLA] ⚠ Warning: Could not get action dim: {e}")
+            print(f"[OpenVLA] ✓ Model loaded successfully (action dim check skipped)")
+        sys.stdout.flush()
         
     def get_action_vector(self, image: np.ndarray, instruction: str) -> np.ndarray:
         """

@@ -222,14 +222,25 @@ def evaluate_task(suite: str, task_id: int, policy: OpenVLAActionExtractor,
         print(f"Instruction: {instruction}")
 
         # Get BDDL file path
+        # Try the path from get_libero_path first, then fallback to actual location
+        bddl_base = get_libero_path("bddl_files")
         task_bddl_file = os.path.join(
-            get_libero_path("bddl_files"),
+            bddl_base,
             task.problem_folder,
             task.bddl_file
         )
-
+        
+        # Fallback: if path doesn't exist, try the actual location
         if not os.path.exists(task_bddl_file):
-            raise FileNotFoundError(f"BDDL file not found: {task_bddl_file}")
+            # Try actual location in the environment
+            import libero
+            libero_package_path = os.path.dirname(libero.__file__)
+            fallback_path = os.path.join(libero_package_path, "libero", "bddl_files", task.problem_folder, task.bddl_file)
+            if os.path.exists(fallback_path):
+                task_bddl_file = fallback_path
+                print(f"  Using fallback BDDL path: {task_bddl_file}")
+            else:
+                raise FileNotFoundError(f"BDDL file not found: {task_bddl_file}\nAlso tried: {fallback_path}")
 
     except Exception as e:
         print(f"✗ Failed to load task: {e}")
@@ -447,26 +458,33 @@ def main():
 
     # Load OpenVLA model
     print(f"\n[1/3] Loading OpenVLA model...")
+    sys.stdout.flush()
     model_start = time.time()
     policy = OpenVLAActionExtractor(
         model_path=args.model_path,
         device=args.device
     )
-    print(f"✓ Model loaded in {time.time() - model_start:.1f}s")
+    model_time = time.time() - model_start
+    print(f"✓ Model loaded in {model_time:.1f}s")
+    sys.stdout.flush()
 
     # Load patch if attacking
     patch = None
     patch_pos = (args.patch_x, args.patch_y)
     if args.patch_path is not None:
         print(f"\n[2/3] Loading adversarial patch...")
+        sys.stdout.flush()
         patch = np.load(args.patch_path)
         print(f"✓ Patch loaded: {patch.shape}, range [{patch.min():.3f}, {patch.max():.3f}]")
         print(f"  Patch position: {patch_pos}")
+        sys.stdout.flush()
     else:
         print(f"\n[2/3] No patch specified - running clean baseline only")
+        sys.stdout.flush()
 
     # Run evaluation on all tasks
     print(f"\n[3/3] Running closed-loop evaluation...")
+    sys.stdout.flush()
 
     all_results = []
     for task_id in task_ids:

@@ -141,7 +141,7 @@ echo ""
 
 EVAL_START=$(date +%s)
 
-$PYTHON "${CODE_DIR}/scripts/evaluate_closed_loop.py" \
+$PYTHON -u "${CODE_DIR}/scripts/evaluate_closed_loop.py" \
     --suite "$SUITE" \
     $TASK_ARG \
     $PATCH_ARG \
