@@ -132,6 +132,8 @@ for TASK_ID in "${TASKS[@]}"; do
         --clean_episodes 50 \
         --attacked_episodes 0 \
         --max_steps 300 \
+        --camera_height 224 \
+        --camera_width 224 \
         --experiment_name "clean_baseline_task${TASK_ID}_${TIMESTAMP}" \
         --output_dir "$CL_DIR" \
         --seed 42
@@ -298,6 +300,8 @@ for TASK_ID in "${TASKS[@]}"; do
             --clean_episodes 50 \
             --attacked_episodes 50 \
             --max_steps 300 \
+            --camera_height 224 \
+            --camera_width 224 \
             --experiment_name "cl_baseline_task${TASK_ID}_${TIMESTAMP}" \
             --output_dir "$CL_DIR" \
             --seed 42
@@ -320,6 +324,8 @@ for TASK_ID in "${TASKS[@]}"; do
             --clean_episodes 50 \
             --attacked_episodes 50 \
             --max_steps 300 \
+            --camera_height 224 \
+            --camera_width 224 \
             --experiment_name "cl_gripper_task${TASK_ID}_${TIMESTAMP}" \
             --output_dir "$CL_DIR" \
             --seed 42

@@ -133,6 +133,8 @@ echo "    $PATCH_ARG \\"
 echo "    --clean_episodes $CLEAN_EPISODES \\"
 echo "    --attacked_episodes $ATTACKED_EPISODES \\"
 echo "    --max_steps $MAX_STEPS \\"
+echo "    --camera_height 224 \\"
+echo "    --camera_width 224 \\"
 echo "    --experiment_name $EXP_NAME \\"
 echo "    --output_dir $OUTPUT_DIR \\"
 echo "    --seed 42"
@@ -148,6 +150,8 @@ $PYTHON -u "${CODE_DIR}/scripts/evaluate_closed_loop.py" \
     --clean_episodes "$CLEAN_EPISODES" \
     --attacked_episodes "$ATTACKED_EPISODES" \
     --max_steps "$MAX_STEPS" \
+    --camera_height 224 \
+    --camera_width 224 \
     --experiment_name "$EXP_NAME" \
     --output_dir "$OUTPUT_DIR" \
     --seed 42

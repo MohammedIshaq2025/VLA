@@ -102,10 +102,10 @@ def parse_args():
                         help='Save video recordings of episodes (WARNING: large files)')
 
     # Environment configuration
-    parser.add_argument('--camera_height', type=int, default=128,
-                        help='Camera height (must match training)')
-    parser.add_argument('--camera_width', type=int, default=128,
-                        help='Camera width (must match training)')
+    parser.add_argument('--camera_height', type=int, default=224,
+                        help='Camera height (OpenVLA uses 224x224)')
+    parser.add_argument('--camera_width', type=int, default=224,
+                        help='Camera width (OpenVLA uses 224x224)')
 
     parser.add_argument('--seed', type=int, default=42,
                         help='Random seed')
@@ -464,6 +464,11 @@ def main():
         model_path=args.model_path,
         device=args.device
     )
+
+    # CRITICAL: Set correct unnorm_key for LIBERO suite
+    # This ensures actions are denormalized with correct robot/dataset statistics
+    policy.set_unnorm_key_for_libero(args.suite)
+
     model_time = time.time() - model_start
     print(f"✓ Model loaded in {model_time:.1f}s")
     sys.stdout.flush()

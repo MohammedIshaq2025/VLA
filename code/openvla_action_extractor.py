@@ -17,23 +17,27 @@ class OpenVLAActionExtractor:
     This is CRITICAL for SE(3) manifold optimization.
     """
     
-    def __init__(self, model_path: str = "/data1/ma1/Ishaq/ump-vla/checkpoints/openvla-7b", device: Optional[str] = None):
+    def __init__(self, model_path: str = "/data1/ma1/Ishaq/ump-vla/checkpoints/openvla-7b",
+                 device: Optional[str] = None,
+                 unnorm_key: Optional[str] = None):
         """
         Initialize OpenVLA model for action extraction.
-        
+
         Args:
             model_path: Path to OpenVLA checkpoint
             device: Device to use (default: cuda:0 if available, else cpu)
+            unnorm_key: Dataset-specific unnormalization key (default: "bridge_orig")
+                       For LIBERO: use "libero_spatial_no_noops", "libero_object_no_noops", etc.
         """
         if device is None:
             device = "cuda:0" if torch.cuda.is_available() else "cpu"
-        
+
         self.device = device
         self.model_path = model_path
-        
+
         print(f"[OpenVLA] Loading model from {model_path} on {device}...")
         sys.stdout.flush()
-        
+
         # Load processor
         print(f"[OpenVLA] Step 1/4: Loading processor...")
         sys.stdout.flush()
@@ -43,7 +47,7 @@ class OpenVLAActionExtractor:
         )
         print(f"[OpenVLA] ✓ Processor loaded")
         sys.stdout.flush()
-        
+
         # Load model
         print(f"[OpenVLA] Step 2/4: Loading model weights...")
         sys.stdout.flush()
@@ -56,7 +60,7 @@ class OpenVLAActionExtractor:
         )
         print(f"[OpenVLA] ✓ Model weights loaded")
         sys.stdout.flush()
-        
+
         # Move to device
         if device.startswith("cuda"):
             print(f"[OpenVLA] Step 3/4: Moving model to {device}...")
@@ -64,11 +68,13 @@ class OpenVLAActionExtractor:
             self.model = self.model.to(device)
             print(f"[OpenVLA] ✓ Model moved to {device}")
             sys.stdout.flush()
-        
-        # Default unnorm_key for action denormalization
-        self.unnorm_key = "bridge_orig"
-        
+
+        # Set unnorm_key for action denormalization
+        # CRITICAL: Must match the dataset/robot for correct action scaling
+        self.unnorm_key = unnorm_key if unnorm_key is not None else "bridge_orig"
+
         print(f"[OpenVLA] Step 4/4: Getting action dimension...")
+        print(f"[OpenVLA] Using unnorm_key: {self.unnorm_key}")
         sys.stdout.flush()
         try:
             action_dim = self.model.get_action_dim(self.unnorm_key)
@@ -129,11 +135,34 @@ class OpenVLAActionExtractor:
     def set_unnorm_key(self, unnorm_key: str):
         """
         Set the normalization key for action denormalization.
-        
+
         Args:
             unnorm_key: Dataset name for unnormalization statistics
         """
         self.unnorm_key = unnorm_key
         print(f"[OpenVLA] Unnorm key set to: {unnorm_key}")
+
+    def set_unnorm_key_for_libero(self, suite: str):
+        """
+        Automatically set the correct unnorm_key for a LIBERO suite.
+
+        Args:
+            suite: LIBERO suite name (libero_spatial, libero_object, libero_goal, libero_10)
+        """
+        # Map LIBERO suite names to their unnormalization keys
+        # Based on OpenVLA-OFT implementation
+        libero_unnorm_keys = {
+            "libero_spatial": "libero_spatial_no_noops",
+            "libero_object": "libero_object_no_noops",
+            "libero_goal": "libero_goal_no_noops",
+            "libero_10": "libero_10_no_noops"
+        }
+
+        if suite in libero_unnorm_keys:
+            self.unnorm_key = libero_unnorm_keys[suite]
+            print(f"[OpenVLA] Unnorm key set to: {self.unnorm_key} (for {suite})")
+        else:
+            print(f"[OpenVLA] ⚠ Warning: Unknown LIBERO suite '{suite}', keeping unnorm_key={self.unnorm_key}")
+            print(f"[OpenVLA]   Valid suites: {list(libero_unnorm_keys.keys())}")
 
 
