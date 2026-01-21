@@ -126,7 +126,7 @@ for TASK_ID in "${TASKS[@]}"; do
     echo "Task $TASK_ID: Establishing clean baseline"
     echo "----------------------------------------"
 
-    $PYTHON "${CODE_DIR}/scripts/evaluate_closed_loop.py" \
+    $PYTHON -u "${CODE_DIR}/scripts/evaluate_closed_loop.py" \
         --suite "$SUITE" \
         --task_id "$TASK_ID" \
         --clean_episodes 50 \
@@ -165,7 +165,7 @@ for TASK_ID in "${TASKS[@]}"; do
 
     EXP_NAME="baseline_patch_task${TASK_ID}_${TIMESTAMP}"
 
-    $PYTHON "${CODE_DIR}/scripts/train_patch.py" \
+    $PYTHON -u "${CODE_DIR}/scripts/train_patch.py" \
         --suite "$SUITE" \
         --task_id "$TASK_ID" \
         --train_ratio 0.7 \
@@ -193,7 +193,7 @@ for TASK_ID in "${TASKS[@]}"; do
     echo "✅ Baseline patch trained: $PATCH"
 
     # Test patch
-    $PYTHON "${CODE_DIR}/scripts/test_patch.py" \
+    $PYTHON -u "${CODE_DIR}/scripts/test_patch.py" \
         --patch_path "$PATCH" \
         --suite "$SUITE" \
         --task_id "$TASK_ID" \
@@ -228,7 +228,7 @@ for TASK_ID in "${TASKS[@]}"; do
 
     EXP_NAME="gripper_focused_task${TASK_ID}_${TIMESTAMP}"
 
-    $PYTHON "${CODE_DIR}/scripts/train_patch.py" \
+    $PYTHON -u "${CODE_DIR}/scripts/train_patch.py" \
         --suite "$SUITE" \
         --task_id "$TASK_ID" \
         --train_ratio 0.7 \
@@ -256,7 +256,7 @@ for TASK_ID in "${TASKS[@]}"; do
     echo "✅ Gripper patch trained: $PATCH"
 
     # Test patch
-    $PYTHON "${CODE_DIR}/scripts/test_patch.py" \
+    $PYTHON -u "${CODE_DIR}/scripts/test_patch.py" \
         --patch_path "$PATCH" \
         --suite "$SUITE" \
         --task_id "$TASK_ID" \
@@ -291,7 +291,7 @@ for TASK_ID in "${TASKS[@]}"; do
     # Evaluate baseline patch
     if [ -n "${BASELINE_PATCHES[$TASK_ID]}" ]; then
         echo "[4a] Evaluating BASELINE patch..."
-        $PYTHON "${CODE_DIR}/scripts/evaluate_closed_loop.py" \
+        $PYTHON -u "${CODE_DIR}/scripts/evaluate_closed_loop.py" \
             --suite "$SUITE" \
             --task_id "$TASK_ID" \
             --patch_path "${BASELINE_PATCHES[$TASK_ID]}" \
@@ -313,7 +313,7 @@ for TASK_ID in "${TASKS[@]}"; do
     # Evaluate gripper-focused patch
     if [ -n "${GRIPPER_PATCHES[$TASK_ID]}" ]; then
         echo "[4b] Evaluating GRIPPER-FOCUSED patch..."
-        $PYTHON "${CODE_DIR}/scripts/evaluate_closed_loop.py" \
+        $PYTHON -u "${CODE_DIR}/scripts/evaluate_closed_loop.py" \
             --suite "$SUITE" \
             --task_id "$TASK_ID" \
             --patch_path "${GRIPPER_PATCHES[$TASK_ID]}" \
