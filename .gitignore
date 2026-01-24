@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Project specific - Large directories (clone separately)
+LIBERO/
+SSA/
+TransferAttack/
+cache/
+results/
+data/
+
+# Model checkpoints (too large for git)
+checkpoints/
+*.pt
+*.pth
+*.safetensors
+*.bin
+
+# Logs
+*.log
+*.out
+*.err
+
+# OS
+.DS_Store
+Thumbs.db
